@@ -1,0 +1,28 @@
+# version 3 is a fork off of version 2. Version 3 does not replace version 2. Version 3 is more focussed on swarm / kubernetes
+# while 2 is more focussed around docker-compose and local development
+version: "2"
+services:
+  sockets:
+    volumes:
+      # the left side . represents the current directory. Never use host file path
+      # we are bind mounting the current directory into the sockets directory in the container
+      # Never bind mount database.
+      # delegated tells docker that if writing happens in container it is ok to get ahead of the host and host writing can catch up later.
+      # delegated is good with TypeScript conversion to js files and is good for increasing speed. It is actually good practice to have it as a default
+      # container_name: sockets - container_name / alias is not needed. Good to keep your service name consistant
+      - .:/sockets:delegated
+      # never copy node_modules into container because some node_module dependencies are built binary by binary into a compatible format for the architecture ie: node-gyp
+      # Because we are bind mounting everything on the host .:/sockets we need to then hide the node_modules so we dont get the conflict
+      # So what we are doing hear is creating an anonymous volume at that location and because it is not there it will then go look for the node_modules within the container
+      # Essentially what we are doing is putting a volume inside of a bind mount
+      - /sockets/node_modules
+    restart: unless-stopped
+    build:
+      context: ./
+      dockerfile: ./Dockerfile
+      target: dev
+    working_dir: /sockets
+    ports:
+      - "3000:3000"
+    environment:
+      - NODE_ENV=development

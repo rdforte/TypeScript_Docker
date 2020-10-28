@@ -1,0 +1,36 @@
+{
+	"compilerOptions": {
+		/*
+    Sets the module system for the program. See the Modules chapter of the handbook for more information. You very likely want "CommonJS".
+    */
+		"module": "commonjs",
+		/*
+    while accurate to the ES6 modules spec, most libraries with CommonJS/AMD/UMD modules didn’t conform as strictly as TypeScript’s implementation.
+    Turning on esModuleInterop will fix both of these problems in the code transpiled by TypeScript.
+    */
+		"esModuleInterop": true,
+		/*
+    When set to true, allowSyntheticDefaultImports allows you to write an import like: import React from "react";
+    instead of: import * as React from "react";
+    */
+		"allowSyntheticDefaultImports": true,
+		/*
+    ypeScript also includes APIs for newer JS features matching the target you specify; for example the definition for Map is available if target is ES6 or newer.
+    */
+		"target": "es6",
+		/*
+    In some cases where no type annotations are present, TypeScript will fall back to a type of any for a variable when it cannot infer the type.
+    This can cause some errors to be missed. Turning on noImplicitAny however TypeScript will issue an error whenever it would have inferred any
+    */
+		"noImplicitAny": true,
+		/*
+    Specify the module resolution strategy: 'node' (Node.js) or 'classic' (used in TypeScript before the release of 1.6). You probably won’t need to use classic in modern code.
+    */
+		"moduleResolution": "node",
+		/*
+    files will be emitted into this directory.
+    */
+		"outDir": "dist"
+	},
+	"include": ["src/**/*"]
+}
